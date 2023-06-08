@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#url="http://localhost:5000/health"
+#url="http://localhost:8000/health"
 url="https://young-bush-9074.fly.dev/health"
 
 response=$(curl -s "$url")
