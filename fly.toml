@@ -1,0 +1,64 @@
+# fly.toml app configuration file generated for young-bush-9074 on 2023-06-08T04:54:12+03:00
+
+app = "young-bush-9074"
+kill_signal = "SIGINT"
+kill_timeout = 5
+mounts = []
+primary_region = "otp"
+processes = []
+
+[env]
+  PORT = "8080"
+
+[[services]]
+  internal_port = 8080
+  processes = ["app"]
+  protocol = "tcp"
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+  
+  [[services.tcp_checks]]
+    grace_period = "30s"
+    interval = "30s"
+    restart_limit = 0
+    timeout = "60s"
+  
+  [[services.http_checks]]
+    interval = 10000
+    grace_period = "30s"
+    method = "get"
+    path = "/health"
+    protocol = "http"
+    restart_limit = 0
+    timeout = 2000
+    tls_skip_verify = false
+    [services.http_checks.headers]
+
+  [[services.script_checks]]
+    command       = "/app/health_check.sh"
+    grace_period  = "30s"
+    interval      = "30s"
+    restart_limit = 0
+    timeout       = "60s"
+
+
+[deploy]
+  release_command = "npm run build"
+
+[processes]
+  app = "node index.js"
+
+[build]
+  [build.args]
+    NODE_VERSION = "14.17.0"

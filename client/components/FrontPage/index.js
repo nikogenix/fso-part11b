@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react";
 
 const FrontPage = () => (
-  <>
-    Welcome
-    <a href="/messages">Messages</a>
-  </>
-)
+	<>
+		Welcome
+		<a href="/messages">Messages</a>
+	</>
+);
 
-export default FrontPage
+export default FrontPage;
